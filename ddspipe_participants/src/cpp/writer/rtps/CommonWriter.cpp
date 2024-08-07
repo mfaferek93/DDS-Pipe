@@ -267,6 +267,9 @@ void CommonWriter::internal_entities_creation_(
     // Copy writer attributes because fast needs it non const (do not ask why)
     fastrtps::rtps::WriterAttributes non_const_writer_attributes = writer_attributes;
 
+    // Set the topic name in properties, as required by the creation process of secure writers
+    non_const_writer_attributes.endpoint.properties.properties().emplace_back("topic_name", topic_attributes.getTopicName().c_str());
+
     // Create History
     rtps_history_ = new fastrtps::rtps::WriterHistory(history_attributes);
 

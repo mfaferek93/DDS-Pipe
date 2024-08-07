@@ -500,6 +500,31 @@ CommonParticipant::reckon_participant_attributes_(
         participant_configuration->app_metadata,
         "true");
 
+    if (participant_configuration->use_security)
+    {
+        params.properties.properties().emplace_back("dds.sec.auth.plugin",
+                                                    "builtin.PKI-DH");
+        params.properties.properties().emplace_back(
+            "dds.sec.auth.builtin.PKI-DH.identity_ca", participant_configuration->identify_ca_fname);
+        params.properties.properties().emplace_back(
+            "dds.sec.auth.builtin.PKI-DH.identity_certificate",
+            participant_configuration->identity_cert_fname);
+        params.properties.properties().emplace_back(
+            "dds.sec.auth.builtin.PKI-DH.private_key", participant_configuration->identity_key_fname);
+        params.properties.properties().emplace_back(
+            "dds.sec.access.plugin", "builtin.Access-Permissions");
+        params.properties.properties().emplace_back(
+            "dds.sec.access.builtin.Access-Permissions.permissions_ca",
+            participant_configuration->identify_ca_fname);
+        params.properties.properties().emplace_back(
+            "dds.sec.access.builtin.Access-Permissions.governance",
+            participant_configuration->governance_fname);
+        params.properties.properties().emplace_back(
+            "dds.sec.access.builtin.Access-Permissions.permissions",
+            participant_configuration->permission_fname);
+        params.properties.properties().emplace_back("dds.sec.crypto.plugin",
+                                                    "builtin.AES-GCM-GMAC");
+    }
     return params;
 }
 

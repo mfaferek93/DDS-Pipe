@@ -55,6 +55,13 @@ struct ParticipantConfiguration : public core::IConfiguration
 
     //! The Topic QoS that have been manually configured for the Participant.
     core::types::TopicQoS topic_qos{};
+
+    bool use_security{false};
+    std::string identify_ca_fname;
+    std::string identity_cert_fname;
+    std::string identity_key_fname;
+    std::string governance_fname;
+    std::string permission_fname;
 };
 
 } /* namespace participants */

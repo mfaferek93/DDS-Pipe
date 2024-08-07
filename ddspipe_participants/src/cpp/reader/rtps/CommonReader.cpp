@@ -95,6 +95,9 @@ void CommonReader::internal_entities_creation_(
     // Copy reader attributes because fast needs it non const (do not ask why)
     fastrtps::rtps::ReaderAttributes non_const_reader_attributes = reader_attributes;
 
+    // Set the topic name in properties, as required by the creation process of secure readers
+    non_const_reader_attributes.endpoint.properties.properties().emplace_back("topic_name", topic_attributes.getTopicName().c_str());
+
     // Create History
     rtps_history_ = new fastrtps::rtps::ReaderHistory(history_attributes);
 
